@@ -1,13 +1,13 @@
-function game()
+  function game()
    %
    %mode==1 slow version
    %mode==2 quick version
    %mode==3 increasing version
    %
-   %ä¸Šä¸‹å·¦å³æŽ§åˆ¶è›‡ï¼Œå¦‚æžœæƒ³è·³å‡ºéŠæˆ²å‰‡æŒ‰esc
+   %¤W¤U¥ª¥k±±¨î³D¡A¦pªG·Q¸õ¥X¹CÀ¸«h«öesc
    %
-   ContinueGame=true; %æ˜¯å¦ç¹¼çºŒflg
-   fig = figure('name','è²ªåƒè›‡éŠæˆ²','KeyPressFcn',@kpfcn);
+   ContinueGame=true; %¬O§_Ä~Äòflg
+   fig = figure('name','³g¦Y³D¹CÀ¸','KeyPressFcn',@kpfcn);
    while(ContinueGame)
        mode=drawMode_1_2_3();
        
@@ -134,7 +134,7 @@ end
 end
 
 function y=f(x,o)
-   %æ­¤å‡½æ•¸ç‚ºåŠƒå‡º READY GO! ,LOSEæ‰€éœ€å‡½æ•¸
+   %¦¹¨ç¼Æ¬°¹º¥X READY GO! ,LOSE©Ò»Ý¨ç¼Æ
    switch o
        case 1
            y=sqrt(1-(x+4.5).*(x+4.5))+1;
@@ -190,7 +190,7 @@ function y=f(x,o)
 end
 
 function M=drawMode_1_2_3()
-   %æ­¤å‡½æ•¸ç•«å‡ºMODE,1,2,3 and return mode 1or 2 or 3
+   %¦¹¨ç¼Æµe¥XMODE,1,2,3 and return mode 1or 2 or 3
    clf;
    axis([-5 5 -5 5])
    box on;
@@ -245,7 +245,7 @@ function M=drawMode_1_2_3()
 end
    
 function drawThankYou()
-   %æ­¤å‡½æ•¸ç•«å‡ºThankYou
+   %¦¹¨ç¼Æµe¥XThankYou
    clf;
    axis([-5 5 -5 5])
    box on;
@@ -267,8 +267,8 @@ function drawThankYou()
 end
   
 function flg=checkAgainYesOrNo(x,y,button)
-   %æ­¤å‡½æ•¸åˆ¤æ–·ä½¿ç”¨è€…é»žæ“ŠYesé‚„æ˜¯No
-   %yes:flg=1,no:flg=-1,æ²’æœ‰åˆ¤å®šflg=0
+   %¦¹¨ç¼Æ§PÂ_¨Ï¥ÎªÌÂIÀ»YesÁÙ¬ONo
+   %yes:flg=1,no:flg=-1,¨S¦³§P©wflg=0
    flg=0;
    if(x>=-4.6&&x<=-0.9)
        if(y>=-3.1&&y<=-0.9)
@@ -287,7 +287,7 @@ function flg=checkAgainYesOrNo(x,y,button)
 end
    
 function drawAGAIN_YES_NO()
-   %æ­¤å‡½æ•¸ç•«AGAIN?,YES,NO
+   %¦¹¨ç¼ÆµeAGAIN?,YES,NO
    clf;
    axis([-5 5 -5 5])
    box on;
@@ -331,7 +331,7 @@ function drawAGAIN_YES_NO()
 end
    
 function drawWIN()
-   %æ­¤å‡½æ•¸ç•«å‡ºWIN
+   %¦¹¨ç¼Æµe¥XWIN
    axis([-5 5 -5 5])
    box on;
    hold on;
@@ -349,7 +349,7 @@ function drawWIN()
 end
 
 function drawReadyGo()
-   %æ­¤å‡½æ•¸ç•«å‡ºReady Go !
+   %¦¹¨ç¼Æµe¥XReady Go !
    clf;
    axis([-5 5 -5 5])
    box on;
@@ -381,8 +381,9 @@ function drawReadyGo()
    plot([3.5 3.5],[0 -2],'color',[1 0 0]); drawnow; pause(1)
    clf;
    axis([-5 5 -5 5])
-   set(gca,'ytick',[],'xtick',[]);
+   box on;
    hold on;
+   set(gca,'ytick',[],'xtick',[]);
    %G
    tt=linspace(-5,-1);
    plot(tt,f(tt,7),'color',[1 0 0]);
@@ -400,7 +401,7 @@ function drawReadyGo()
 end
            
 function drawLose()
-   %æ­¤å‡½æ•¸ç•«å‡ºLOSE
+   %¦¹¨ç¼Æµe¥XLOSE
    clf;
    axis([-5 5 -5 5])
    box on;
@@ -430,7 +431,7 @@ function drawLose()
 end
    
 function drawSnake_Point_Title(x,y,ex,ey,countPoint,speed)
-   %æ­¤å‡½æ•¸ç•«å‡ºè›‡çš„èº«é«”ï¼Œè¦åƒçš„é»žï¼Œèˆ‡è¨ˆåˆ†Title
+   %¦¹¨ç¼Æµe¥X³Dªº¨­Åé¡A­n¦YªºÂI¡A»P­p¤ÀTitle
    axis([-5 5 -5 5])
    box on;
    hold on;
@@ -442,8 +443,8 @@ function drawSnake_Point_Title(x,y,ex,ey,countPoint,speed)
 end
    
 function flg=checkdie(X,Y)
-   %X,Y ç‚ºè›‡çš„ä½ç½®
-   %æ­¤å‡½æ•¸æª¢æ¸¬è²ªåƒè›‡æ˜¯å¦æ­»æŽ‰(i.e. ç¢°åˆ°è‡ªå·±orç¢°åˆ°ç‰†å£)
+   %X,Y ¬°³Dªº¦ì¸m
+   %¦¹¨ç¼ÆÀË´ú³g¦Y³D¬O§_¦º±¼(i.e. ¸I¨ì¦Û¤vor¸I¨ìÀð¾À)
    flg=false;
    L=length(X);
    for kk=2:L-1
@@ -462,7 +463,7 @@ function flg=checkdie(X,Y)
 end
 
 function flg=checkReverse(a,b)
-   %æ­¤å‡½æ•¸æª¢æ¸¬è›‡åƒåˆ°çš„æ­¤ä»¤ä½¿å¦é•åæ–¹å‘(e.x. åŽŸæœ¬æ–¹å‘ç‚ºå‘å³ï¼Œå‘å·¦ç‚ºåæ–¹å‘)
+   %¦¹¨ç¼ÆÀË´ú³D¦Y¨ìªº¦¹¥O¨Ï§_¹H¤Ï¤è¦V(e.x. ­ì¥»¤è¦V¬°¦V¥k¡A¦V¥ª¬°¤Ï¤è¦V)
    %a,b are vector
    flg=true;
    for jj=1:length(a)
@@ -474,10 +475,10 @@ function flg=checkReverse(a,b)
 end
 
 function flg=checkRepeat(X,Y,x,y)
-   %æ­¤å‡½æ•¸æª¢æ¸¬ç”¢ç”Ÿçš„é»žæ˜¯å¦ç‚ºè²ªåƒè›‡çš„èº«é«”
+   %¦¹¨ç¼ÆÀË´ú²£¥ÍªºÂI¬O§_¬°³g¦Y³Dªº¨­Åé
    %yes return true otherwise return false
-   % X,Y ç‚ºè²ªåƒè›‡çš„ä½ç½®
-   % x,y are è¦åƒçš„é»žçš„ä½ç½®
+   % X,Y ¬°³g¦Y³Dªº¦ì¸m
+   % x,y are ­n¦YªºÂIªº¦ì¸m
    flg=false;
    for ii=1:length(X)
        if(X(ii)==x&&Y(ii)==y)
@@ -487,6 +488,3 @@ function flg=checkRepeat(X,Y,x,y)
    end
 end
 
-  
-      
-      
