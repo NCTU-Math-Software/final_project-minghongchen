@@ -62,7 +62,6 @@ function game()
                speed=speed-0.015;
                end
            end
-           disp(speed)
            x(1)=[];
            y(1)=[];
            x=[x tempx];
@@ -190,8 +189,9 @@ function M=drawMode_1_2_3()
    %此函數畫出MODE,1,2,3 and return mode 1or 2 or 3
    clf;
    axis([-5 5 -5 5])
-   set(gca,'ytick',[],'xtick',[]);
+   box on;
    hold on;
+   set(gca,'ytick',[],'xtick',[]);
    %MODE?
    plot([-4 -4 -3.5 -3 -3],[1 3 1.5 3 1],'color',[0 0 1]); 
    tt=linspace(-2.75,-0.75);
@@ -244,8 +244,9 @@ function drawThankYou()
    %此函數畫出ThankYou
    clf;
    axis([-5 5 -5 5])
-   set(gca,'ytick',[],'xtick',[]);
+   box on;
    hold on;
+   set(gca,'ytick',[],'xtick',[]);
    plot([-4.9 -3.1 -4 -4],[3 3 3 0],'color',[0 0 1]);
    plot([-2.9 -2.9 -2.9 -1.1 -1.1 -1.1],[3 0 1.5 1.5 3 0],'color',[0 0 1]); 
    plot([-0.9 0 0.9],[0 3 0],'color',[0 0 1]);
@@ -285,8 +286,9 @@ function drawAGAIN_YES_NO()
    %此函數畫AGAIN?,YES,NO
    clf;
    axis([-5 5 -5 5])
-   set(gca,'ytick',[],'xtick',[]);
+   box on;
    hold on;
+   set(gca,'ytick',[],'xtick',[]);
    %A
    plot([-4 -3.5],[1 3],'color',[0 0 1]);
    plot([-3.5 -3],[3 1],'color',[0 0 1]);
@@ -327,8 +329,9 @@ end
 function drawWIN()
    %此函數畫出WIN
    axis([-5 5 -5 5])
-   set(gca,'ytick',[],'xtick',[]);
+   box on;
    hold on;
+   set(gca,'ytick',[],'xtick',[]);
    plot([-4.5 -3.5],[2 -2],'color',[1 0 0]);
    plot([-3.5 -2.5],[-2 2],'color',[1 0 0]);
    plot([-2.5 -1.5],[2 -2],'color',[1 0 0]);
@@ -345,8 +348,9 @@ function drawReadyGo()
    %此函數畫出Ready Go !
    clf;
    axis([-5 5 -5 5])
-   set(gca,'ytick',[],'xtick',[]);
+   box on;
    hold on;
+   set(gca,'ytick',[],'xtick',[]);
    %R
    plot([-4.5 -4.5],[-2 2],'color',[1 0 0]);
    tt=linspace(-4.5,-3.5);
@@ -395,8 +399,9 @@ function drawLose()
    %此函數畫出LOSE
    clf;
    axis([-5 5 -5 5])
-   set(gca,'ytick',[],'xtick',[]);
+   box on;
    hold on;
+   set(gca,'ytick',[],'xtick',[]);
    %L
    plot([-4 -4],[1 -1],'color',[1 0 0]);
    plot([-4 -3],[-1 -1],'color',[1 0 0]);
@@ -423,8 +428,9 @@ end
 function drawSnake_Point_Title(x,y,ex,ey,countPoint,speed)
    %此函數畫出蛇的身體，要吃的點，與計分Title
    axis([-5 5 -5 5])
-   set(gca,'ytick',[],'xtick',[]);
+   box on;
    hold on;
+   set(gca,'ytick',[],'xtick',[]);
    plot(ex,ey,['red','d'])    
    title(['point:',num2str(countPoint)],'Color','r','FontSize',15);
        
