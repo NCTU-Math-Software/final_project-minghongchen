@@ -26,4 +26,5 @@ mdoe 3:一開始蛇以"慢"速度前進，當每吃到一個食物時，蛇每�
 如果在遊戲中想退出遊戲可以按esc鍵，則可以跳出並結束遊戲。
 
 # 參考資料
+* 多重按鍵輸入
 https://yuchungchuang.wordpress.com/2017/08/07/matlab-%E5%A4%9A%E9%87%8D%E6%8C%89%E9%8D%B5%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%99%95%E7%90%86keypressfcn/
