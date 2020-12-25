@@ -59,7 +59,7 @@ function game()
                y=[y(1) y];
                
                if(mode==3)
-               speed=speed-0.015;
+               speed=speed-0.018;
                end
            end
            x(1)=[];
@@ -72,10 +72,14 @@ function game()
                drawWIN();
                clf;
                axis([-5 5 -5 5])
+               hold on;
+               box on;
                set(gca,'ytick',[],'xtick',[]); pause(0.5)
                drawWIN();
                clf;
                axis([-5 5 -5 5])
+               hold on;
+               box on;
                set(gca,'ytick',[],'xtick',[]); pause(0.5)
                drawWIN();
                break;
