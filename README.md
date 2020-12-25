@@ -1,8 +1,7 @@
-# final_project-minghongchen
+# 貪吃蛇遊戲
 final_project-minghongchen created by GitHub Classroom
-貪吃蛇遊戲
 
-# 貪吃蛇遊戲介紹
+# 遊戲介紹
 在這個遊戲中有三種模式:
 三種模式不同的地方在於蛇前進的速度
 mode 1:蛇以"慢"速度前進。
