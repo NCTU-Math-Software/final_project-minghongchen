@@ -1,4 +1,4 @@
-# 貪吃蛇遊戲
+# 貪Chebsnake吃蛇遊戲
 final_project-minghongchen created by GitHub Classroom
 
 # 遊戲介紹
