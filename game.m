@@ -42,7 +42,7 @@
            tempx=linex(length(linex))+mv(1);
            tempy=liney(length(liney))+mv(2);
            
-           if(checkdie([pointx tempx],[pointy tempy]))
+           if(checkdie([linex tempx],[liney tempy]))
                linex(1)=[];
                liney(1)=[];
                linex=[linex tempx];
@@ -577,6 +577,3 @@ function flg=checkRepeat(X,Y,x,y)
        end
    end
 end
-
-      
-      
