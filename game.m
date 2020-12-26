@@ -1,20 +1,22 @@
-  function game()
+ function game()
    %
    %mode==1 slow version
    %mode==2 quick version
    %mode==3 increasing version
    %
-   %¤W¤U¥ª¥k±±¨î³D¡A¦pªG·Q¸õ¥X¹CÀ¸«h«öesc
+   %ä¸Šä¸‹å·¦å³æ§åˆ¶è›‡ï¼Œå¦‚æœæƒ³è·³å‡ºéŠæˆ²å‰‡æŒ‰esc
    %
-   ContinueGame=true; %¬O§_Ä~Äòflg
-   fig = figure('name','³g¦Y³D¹CÀ¸','KeyPressFcn',@kpfcn);
+   ContinueGame=true; %æ˜¯å¦ç¹¼çºŒflg
+   fig = figure('name','è²ªåƒè›‡éŠæˆ²','KeyPressFcn',@kpfcn);
+   corner=[];
+   body=0;
    while(ContinueGame)
        mode=drawMode_1_2_3();
        
-       speed=0.5;
+       speed=0.25;
        
        if(mode==2) %quick
-           speed=0.1;
+           speed=0.08;
        end
        
        countPoint=0;
@@ -22,11 +24,13 @@
        drawReadyGo();
        
        mv=[1 0];
-       x=[-4 -3];
-       y=[0 0];
+       pointx=[-5 -3];
+       linex=[-5 -4 -3];
+       pointy=[0 0];
+       liney=[0 0 0];
        
-       eatx=randi([-4 4]);
-       eaty=randi([-4 4]);
+       eatx=randi([-9 9]);
+       eaty=randi([-9 9]);
        
        while(true)
            clf;
@@ -35,40 +39,84 @@
                break;
            end
 
-           tempx=x(length(x))+mv(1);
-           tempy=y(length(y))+mv(2);
+           tempx=linex(length(linex))+mv(1);
+           tempy=liney(length(liney))+mv(2);
            
-           if(checkdie([x tempx],[y tempy]))
-               clf;
-               x(1)=[];
-               y(1)=[];
-               drawSnake_Point_Title([x tempx],[y tempy],eatx,eaty,countPoint,speed);
+           if(checkdie([pointx tempx],[pointy tempy]))
+               linex(1)=[];
+               liney(1)=[];
+               linex=[linex tempx];
+               liney=[liney tempy];
+               c=0;
+               while(c<length(pointx))
+                   pointx(length(pointx)-c)=linex(length(linex)-2*c);
+                   pointy(length(pointy)-c)=liney(length(liney)-2*c);
+                   c=c+1;
+               end
+               drawSnake_Point_Title(pointx,pointy,linex,liney,eatx,eaty,countPoint,speed,corner); 
                drawLose();
                break;
            end
-           
            if(tempx==eatx&&tempy==eaty)
+               body=body+2;
                countPoint=countPoint+1;
                flgrepeat=true;
                while(flgrepeat)
-                   eatx=randi([-4 4]);
-                   eaty=randi([-4 4]);
-                   flgrepeat=checkRepeat([x tempx],[y tempy],eatx,eaty);
+                   eatx=randi([-9 9]);
+                   eaty=randi([-9 9]);
+                   flgrepeat=checkRepeat([linex tempx],[liney tempy],eatx,eaty);
                end
-               x=[x(1) x];
-               y=[y(1) y];
                
                if(mode==3)
-               speed=speed-0.018;
+               speed=speed-0.0065;
                end
            end
-           x(1)=[];
-           y(1)=[];
-           x=[x tempx];
-           y=[y tempy];
-           drawSnake_Point_Title(x,y,eatx,eaty,countPoint,speed);
+           if(body>0)
+               if(mod(body,2)==1)
+                   linex=[linex tempx];
+                   liney=[liney tempy];
+                   pointx=[pointx tempx]; %åŠ ä¸€å€‹ä½å­ç‚ºäº†while
+                   pointy=[pointy tempy];
+                   c=0;
+                   while(c<length(pointx))
+                       pointx(length(pointx)-c)=linex(length(linex)-2*c);
+                       pointy(length(pointy)-c)=liney(length(liney)-2*c);
+                       c=c+1;
+                   end
+               else
+                   linex=[linex tempx];
+                   liney=[liney tempy];
+                   c=0;
+                   while(c<length(pointx))
+                       pointx(length(pointx)-c)=linex(length(linex)-2*c);
+                       pointy(length(pointy)-c)=liney(length(liney)-2*c);
+                       c=c+1;
+                   end
+               end
+               body=body-1;
+           else
+               linex(1)=[];
+               liney(1)=[];
+               linex=[linex tempx];
+               liney=[liney tempy];
+               c=0;
+               while(c<length(pointx))
+                   pointx(length(pointx)-c)=linex(length(linex)-2*c);
+                   pointy(length(pointy)-c)=liney(length(liney)-2*c);
+                   c=c+1;
+               end
+           end
+          
+           drawSnake_Point_Title(pointx,pointy,linex,liney,eatx,eaty,countPoint,speed,corner);
            
-           if(countPoint==25)
+           if(~isempty(corner))
+               if(linex(1)==corner(1)&&liney(1)==corner(2))
+                   corner(1)=[];
+                   corner(1)=[];
+               end
+           end
+           
+           if(countPoint==30)
                drawWIN();
                clf;
                axis([-5 5 -5 5])
@@ -106,24 +154,28 @@ function kpfcn(obj,event)
             if(checkReverse(mv,[0 1]))
                 mv=[0 -1];
             else
+                corner=[corner linex(length(linex)) liney(length(liney))];
                 mv=[0 1];
             end
         case 'downarrow'
             if(checkReverse(mv,[0 -1]))
                 mv=[0 1];
             else
+                corner=[corner linex(length(linex)) liney(length(liney))];
                 mv=[0 -1];
             end
         case 'rightarrow'
             if(checkReverse(mv,[1 0]))
                 mv=[-1 0];
             else
+                corner=[corner linex(length(linex)) liney(length(liney))];
                 mv=[1 0];
             end
         case 'leftarrow'
             if(checkReverse(mv,[-1 0]))
                 mv=[1 0];
             else
+                corner=[corner linex(length(linex)) liney(length(liney))];
                 mv=[-1 0];
             end
         case 'escape'
@@ -131,10 +183,10 @@ function kpfcn(obj,event)
     end
 end
    
-end
+ end
 
 function y=f(x,o)
-   %¦¹¨ç¼Æ¬°¹º¥X READY GO! ,LOSE©Ò»İ¨ç¼Æ
+   %æ­¤å‡½æ•¸ç‚ºåŠƒå‡º READY GO! ,LOSEæ‰€éœ€å‡½æ•¸
    switch o
        case 1
            y=sqrt(1-(x+4.5).*(x+4.5))+1;
@@ -190,7 +242,7 @@ function y=f(x,o)
 end
 
 function M=drawMode_1_2_3()
-   %¦¹¨ç¼Æµe¥XMODE,1,2,3 and return mode 1or 2 or 3
+   %æ­¤å‡½æ•¸ç•«å‡ºMODE,1,2,3 and return mode 1or 2 or 3
    clf;
    axis([-5 5 -5 5])
    box on;
@@ -245,7 +297,7 @@ function M=drawMode_1_2_3()
 end
    
 function drawThankYou()
-   %¦¹¨ç¼Æµe¥XThankYou
+   %æ­¤å‡½æ•¸ç•«å‡ºThankYou
    clf;
    axis([-5 5 -5 5])
    box on;
@@ -267,8 +319,8 @@ function drawThankYou()
 end
   
 function flg=checkAgainYesOrNo(x,y,button)
-   %¦¹¨ç¼Æ§PÂ_¨Ï¥ÎªÌÂIÀ»YesÁÙ¬ONo
-   %yes:flg=1,no:flg=-1,¨S¦³§P©wflg=0
+   %æ­¤å‡½æ•¸åˆ¤æ–·ä½¿ç”¨è€…é»æ“ŠYesé‚„æ˜¯No
+   %yes:flg=1,no:flg=-1,æ²’æœ‰åˆ¤å®šflg=0
    flg=0;
    if(x>=-4.6&&x<=-0.9)
        if(y>=-3.1&&y<=-0.9)
@@ -287,7 +339,7 @@ function flg=checkAgainYesOrNo(x,y,button)
 end
    
 function drawAGAIN_YES_NO()
-   %¦¹¨ç¼ÆµeAGAIN?,YES,NO
+   %æ­¤å‡½æ•¸ç•«AGAIN?,YES,NO
    clf;
    axis([-5 5 -5 5])
    box on;
@@ -331,7 +383,7 @@ function drawAGAIN_YES_NO()
 end
    
 function drawWIN()
-   %¦¹¨ç¼Æµe¥XWIN
+   %æ­¤å‡½æ•¸ç•«å‡ºWIN
    axis([-5 5 -5 5])
    box on;
    hold on;
@@ -349,7 +401,7 @@ function drawWIN()
 end
 
 function drawReadyGo()
-   %¦¹¨ç¼Æµe¥XReady Go !
+   %æ­¤å‡½æ•¸ç•«å‡ºReady Go !
    clf;
    axis([-5 5 -5 5])
    box on;
@@ -401,7 +453,7 @@ function drawReadyGo()
 end
            
 function drawLose()
-   %¦¹¨ç¼Æµe¥XLOSE
+   %æ­¤å‡½æ•¸ç•«å‡ºLOSE
    clf;
    axis([-5 5 -5 5])
    box on;
@@ -430,21 +482,59 @@ function drawLose()
    plot(3,-1,'-ro','MarkerFaceColor','r'); drawnow; pause(2)
 end
    
-function drawSnake_Point_Title(x,y,ex,ey,countPoint,speed)
-   %¦¹¨ç¼Æµe¥X³Dªº¨­Åé¡A­n¦YªºÂI¡A»P­p¤ÀTitle
-   axis([-5 5 -5 5])
+function drawSnake_Point_Title(x,y,linex,liney,ex,ey,countPoint,speed,corner)
+   %æ­¤å‡½æ•¸ç•«å‡ºè›‡çš„èº«é«”ï¼Œè¦åƒçš„é»ï¼Œèˆ‡è¨ˆåˆ†Title
+   axis([-10 10 -10 10])
    box on;
    hold on;
    set(gca,'ytick',[],'xtick',[]);
    plot(ex,ey,['red','d'])    
    title(['point:',num2str(countPoint)],'Color','r','FontSize',15);
-       
-   plot(x,y,'-ko','MarkerFaceColor','k'); drawnow; pause(speed)
+   drawx=linex(1);
+   drawy=liney(1);
+   countp=2;
+   while(countp<length(linex))
+       fc=checkIsCorner(linex(countp),liney(countp),corner);
+       if(fc)
+           t=0:2;
+           px = polyfit(t, [linex(countp-1) linex(countp) linex(countp+1)],2);
+           py = polyfit(t, [liney(countp-1) liney(countp) liney(countp+1)],2);
+           t=linspace(0,2);
+           fx = polyval(px, t);
+           fy = polyval(py, t);
+           drawx=[drawx fx];
+           drawy=[drawy fy];
+           countp=countp+2;
+       else
+           drawx=[drawx linex(countp)];
+           drawy=[drawy liney(countp)];
+           countp=countp+1;
+       end
+   end
+   if(countp==length(linex))
+       drawx=[drawx linex(countp)];
+       drawy=[drawy liney(countp)];
+   end
+   plot(x,y,'bo','MarkerFaceColor','b');
+   plot(drawx,drawy,'b'); drawnow; pause(speed)
 end
-   
+  
+function flg=checkIsCorner(x,y,corner)
+   %checkx,yæ˜¯å¦ç‚ºcorner
+   flg=false;
+   count=1;
+   while(count<length(corner))
+       if(corner(count)==x&&corner(count+1)==y)
+           flg=true;
+           break;
+       end
+       count=count+2;
+   end
+end
+
 function flg=checkdie(X,Y)
-   %X,Y ¬°³Dªº¦ì¸m
-   %¦¹¨ç¼ÆÀË´ú³g¦Y³D¬O§_¦º±¼(i.e. ¸I¨ì¦Û¤vor¸I¨ìÀğ¾À)
+   %X,Y ç‚ºè›‡çš„ä½ç½®
+   %æ­¤å‡½æ•¸æª¢æ¸¬è²ªåƒè›‡æ˜¯å¦æ­»æ‰(i.e. ç¢°åˆ°è‡ªå·±orç¢°åˆ°ç‰†å£)
    flg=false;
    L=length(X);
    for kk=2:L-1
@@ -454,16 +544,16 @@ function flg=checkdie(X,Y)
        end
    end
    
-   if(X(L)==5||X(L)==-5)
+   if(X(L)==10||X(L)==-10)
        flg=true;
    end
-   if(Y(L)==5||Y(L)==-5)
+   if(Y(L)==10||Y(L)==-10)
        flg=true;
    end
 end
 
 function flg=checkReverse(a,b)
-   %¦¹¨ç¼ÆÀË´ú³D¦Y¨ìªº¦¹¥O¨Ï§_¹H¤Ï¤è¦V(e.x. ­ì¥»¤è¦V¬°¦V¥k¡A¦V¥ª¬°¤Ï¤è¦V)
+   %æ­¤å‡½æ•¸æª¢æ¸¬è›‡åƒåˆ°çš„æ­¤ä»¤ä½¿å¦é•åæ–¹å‘(e.x. åŸæœ¬æ–¹å‘ç‚ºå‘å³ï¼Œå‘å·¦ç‚ºåæ–¹å‘)
    %a,b are vector
    flg=true;
    for jj=1:length(a)
@@ -475,10 +565,10 @@ function flg=checkReverse(a,b)
 end
 
 function flg=checkRepeat(X,Y,x,y)
-   %¦¹¨ç¼ÆÀË´ú²£¥ÍªºÂI¬O§_¬°³g¦Y³Dªº¨­Åé
+   %æ­¤å‡½æ•¸æª¢æ¸¬ç”¢ç”Ÿçš„é»æ˜¯å¦ç‚ºè²ªåƒè›‡çš„èº«é«”
    %yes return true otherwise return false
-   % X,Y ¬°³g¦Y³Dªº¦ì¸m
-   % x,y are ­n¦YªºÂIªº¦ì¸m
+   % X,Y ç‚ºè²ªåƒè›‡çš„ä½ç½®
+   % x,y are è¦åƒçš„é»çš„ä½ç½®
    flg=false;
    for ii=1:length(X)
        if(X(ii)==x&&Y(ii)==y)
@@ -488,3 +578,5 @@ function flg=checkRepeat(X,Y,x,y)
    end
 end
 
+      
+      
